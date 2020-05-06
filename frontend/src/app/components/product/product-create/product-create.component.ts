@@ -1,3 +1,5 @@
+import { Transacao } from './../transacao.model';
+import { Atributo } from './../atributo.model';
 import { Product } from './../product.model';
 import { ProductService } from './../product.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,7 +15,9 @@ export class ProductCreateComponent implements OnInit {
   product: Product = {
     name: '',
     price: null
-  }
+  };
+
+  transacao: Transacao;
 
   constructor(private productService: ProductService, private  router: Router) { }
 
@@ -25,6 +29,13 @@ export class ProductCreateComponent implements OnInit {
       this.productService.showMessage('Produto criado!')
       this.router.navigate(['/products'])
     })    
+  }
+
+  postTransacao(): void {
+    this.productService.postTransacao(this.product).subscribe(
+      (transacao: Transacao) => this.transacao = transacao
+    );
+    console.log(this.transacao);
   }
 
   cancel(): void {

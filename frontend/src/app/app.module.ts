@@ -1,3 +1,4 @@
+import { ProductService } from './components/product/product.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 
@@ -74,10 +75,14 @@ registerLocaleData(localePt);
     MatPaginatorModule,
     MatSortModule
   ],
-  providers: [{
-    provide: LOCALE_ID,
-    useValue: 'pt-BR'
-  }],
+  providers: [
+    {
+      provide: LOCALE_ID,
+   
+      useValue: 'pt-BR'
+    },
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
