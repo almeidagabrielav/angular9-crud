@@ -1,6 +1,3 @@
-import { Atributo } from './atributo.model';
-import { Tabela } from './tabela.model';
-import { Transacao } from './transacao.model';
 import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -14,11 +11,7 @@ import { Observable, EMPTY } from 'rxjs';
 export class ProductService {
 
   baseUrl = 'http://localhost:3001/products';
-  urlMonitorarTransacoes = "http://127.0.0.1:8000/transacoes/";
-
-  transacao: Transacao;
-  tabelas: Tabela[];
-  atributos: Atributo[];
+  urlMonitorarTransacoes = "http://localhost:8000/transacoes/";
 
   constructor(private snackBar: MatSnackBar, private http: HttpClient) { }
 
@@ -31,35 +24,7 @@ export class ProductService {
     })
   }
 
-  postTransacao(product:Product) : Observable<Transacao> {
-    this.atributos = 
-    [
-      {
-        CampoAlterado: "name",
-        ValorInicial: "",
-        ValorFinal: product.name 
-      },
-      {
-        CampoAlterado: "price",
-        ValorInicial: "",
-        ValorFinal: product.price.toString()
-      },
-    ];
-    this.tabelas = 
-    [
-      {
-        Nome: "product",
-        Esquema: "xxx",
-        Atributos: this.atributos
-      }
-    ];
-    this.transacao = {
-      TipoAlteracao: "INSERT",
-      UsuarioId: 2,
-      Ip: "12450400",
-      Guid: "a965b2c0-8f36-11ea-a65a-34238774efe4",
-      Tabelas: this.tabelas
-    };
+  postTransacao(product:Product) : Observable<any> {
     var data = {
       "TipoAlteracao": "INSERT",
       "UsuarioId": "24",
@@ -83,8 +48,7 @@ export class ProductService {
         ]
       }]
     };
-    console.log(this.http);
-    return this.http.post<Transacao>(this.urlMonitorarTransacoes, data).pipe(
+    return this.http.post<any>(this.urlMonitorarTransacoes, data).pipe(
       map(obj => obj),
       catchError(e => this.errorHandler(e))
     );
